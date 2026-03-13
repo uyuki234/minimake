@@ -5,6 +5,7 @@ minimake - シンプルなビルドシステム
 TODO コメントがある箇所を実装してください。
 """
 
+import subprocess
 import sys
 import json
 
@@ -57,7 +58,17 @@ def build_target(config: dict, target: str) -> bool:
     # ヒント: subprocess.run() を使います
     # shell=True を指定すると、シェルコマンドとして実行できます
     # result.returncode が 0 でなければビルド失敗です
-    pass
+    result = subprocess.run(command, shell=True)
+
+    # if result.returncode == 0:
+    #     return True
+    # 返り値が0でない場合もreturnすることで、その後の処理を飛ばせる
+
+    if result.returncode != 0:
+        print(f"Error: Build failed for '{target}'", file=sys.stderr)
+        return False
+    
+    return True
 
 
 def main():
