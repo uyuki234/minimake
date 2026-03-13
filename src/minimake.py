@@ -82,13 +82,25 @@ def main():
     # ヒント:
     # - targets: ビルドするターゲットのリスト
     # - build_file: ビルド定義ファイルのパス（デフォルト: "build.json"）
-    target = sys.argv[1]
-    build_file = sys.argv[2] if len(sys.argv) > 2 else "build.json"
+
+    targets = []
+    build_file = "build.json"
+
+    i = 1
+    while i < len(sys.argv):
+        # CLIで--fileと指定した後にbuild.jsonのようなファイルを指定するとbuild.jsonを実行するような条件になっている
+        if sys.argv[i] == "--file" and i + 1 < len(sys.argv):
+            build_file = sys.argv[i + 1]
+            i += 2  # --fileと指定する時、2個先はNULLであるはずなのでi == len(sys.argv)となり処理が終了する
+        else:
+            targets.append(sys.argv[i])
+            i += 1
 
     config = load_build_file(build_file)
 
-    if not build_target(config, target):
-        sys.exit(1)
+    for target in targets:
+        if not build_target(config, targets):
+            sys.exit(1)
 
 
 if __name__ == "__main__":
