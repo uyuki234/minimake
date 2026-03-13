@@ -82,7 +82,13 @@ def main():
     # ヒント:
     # - targets: ビルドするターゲットのリスト
     # - build_file: ビルド定義ファイルのパス（デフォルト: "build.json"）
-    pass
+    target = sys.argv[1]
+    build_file = sys.argv[2] if len(sys.argv) > 2 else "build.json"
+
+    config = load_build_file(build_file)
+
+    if not build_target(config, target):
+        sys.exit(1)
 
 
 if __name__ == "__main__":
