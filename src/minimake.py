@@ -20,7 +20,11 @@ def load_build_file(path: str) -> dict:
     """
     # TODO: ここを実装してください
     # ヒント: json.load() を使います
-    pass
+    import json
+
+    def load_build_file(path: str) -> dict:
+        with open(path) as f:
+            return  json.load(f)
 
 
 def build_target(config: dict, target: str) -> bool:
