@@ -99,7 +99,7 @@ def main():
     config = load_build_file(build_file)
 
     for target in targets:
-        if not build_target(config, targets):
+        if not build_target(config, target):
             sys.exit(1)
 
 
