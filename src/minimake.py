@@ -11,7 +11,6 @@ def load_build_file(path: str) -> dict:
 
 
 def needs_rebuild(config: dict, target: str) -> bool:
-    # inputs に加えて deps もチェックするように拡張してください
     targets = config.get("targets", {})
     target_config = targets[target]
 
@@ -22,7 +21,6 @@ def needs_rebuild(config: dict, target: str) -> bool:
 
     target_mtime = target_path.stat().st_mtime
 
-    # TODO: inputs と deps の両方をチェックしてください
     # inputs のチェック
     inputs = target_config.get("inputs", [])
     for input_file in inputs:
