@@ -1,6 +1,7 @@
 import json
 import subprocess
 import sys
+import os
 from pathlib import Path
 
 
@@ -9,22 +10,18 @@ def load_build_file(path: str) -> dict:
         return json.load(f)
 
 
-def needs_rebuild(config: dict, target: str) -> bool:
-    targets = config.get("targets", {})
-    target_config = targets[target]
-
+def needs_rebuild(target: str, inputs: list[str]) -> bool:
+    # ターゲットの再ビルドが必要かどうかを判定する
+    #
+    # 以下のロジックを実装してください:
+    # 1. ターゲットファイルが存在しない場合は True を返す
+    # 2. いずれかの入力ファイルがターゲットより新しい場合は True を返す
+    # 3. それ以外は False を返す
+    #
+    # ヒント: Path.stat().st_mtime でファイルの更新日時を取得できます
     target_path = Path(target)
 
-    if not target_path.exists():
-        return True
-
-    target_mtime = target_path.stat().st_mtime
-
-    # TODO: inputs と deps の両方をチェックしてください
-    # ヒント:
-    # - inputs: target_config.get("inputs", [])
-    # - deps: target_config.get("deps", [])
-    # - ファイルの mtime が target_mtime より大きければ再ビルドが必要
+    # TODO: ここを実装してください
     pass
 
 
