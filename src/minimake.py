@@ -22,7 +22,19 @@ def needs_rebuild(target: str, inputs: list[str]) -> bool:
     target_path = Path(target)
 
     # TODO: ここを実装してください
-    pass
+    if not target_path.exists():
+        return True
+    
+    target_mtime = target_path.stat().st_mtime
+
+    for input_file in inputs:
+        input_path = Path(input_file)
+        if not input_path.exists():
+            continue
+        if input_path.stat().st_mtime > target_mtime:
+            return True
+
+    return False
 
 
 def build_target(config: dict, target: str) -> bool:
