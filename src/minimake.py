@@ -23,7 +23,21 @@ def needs_rebuild(config: dict, target: str) -> bool:
     target_mtime = target_path.stat().st_mtime
 
     # TODO: inputs と deps の両方をチェックしてください
-    pass
+    # inputs のチェック
+    inputs = target_config.get("inputs", [])
+    for input_file in inputs:
+        input_path = Path(input_file)
+        if input_path.exists() and input_path.stat().st_mtime > target_mtime:
+            return True
+
+    # deps（依存ターゲット）のチェック
+    deps = target_config.get("deps", [])
+    for dep in deps:
+        dep_path = Path(dep)
+        if dep_path.exists() and dep_path.stat().st_mtime > target_mtime:
+            return True
+
+    return False
 
 
 def build_target(config: dict, target: str) -> bool:
