@@ -35,11 +35,18 @@ def build_target(config: dict, target: str) -> bool:
 
 
 def resolve_build_order(config: dict, target: str) -> list[str]:
+    # 依存関係を解決し、ビルド順序を返す
+    #
+    # config: ビルド定義
+    # target: ビルドするターゲット
+    # 戻り値: ビルドすべきターゲットのリスト（ビルド順）
+    #
+    # 例: resolve_build_order(config, "hello") -> ["hello.o", "hello"]
     targets = config.get("targets", {})
 
-    visited = set()
-    visiting = set()
-    order = []
+    visited = set()      # 処理済みのターゲット
+    visiting = set()     # 現在処理中のターゲット（循環検出用）
+    order = []           # ビルド順序
 
     def visit(t: str):
         if t in visited:
