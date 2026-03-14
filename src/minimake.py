@@ -10,31 +10,20 @@ def load_build_file(path: str) -> dict:
         return json.load(f)
 
 
-def needs_rebuild(target: str, inputs: list[str]) -> bool:
-    # ターゲットの再ビルドが必要かどうかを判定する
-    #
-    # 以下のロジックを実装してください:
-    # 1. ターゲットファイルが存在しない場合は True を返す
-    # 2. いずれかの入力ファイルがターゲットより新しい場合は True を返す
-    # 3. それ以外は False を返す
-    #
-    # ヒント: Path.stat().st_mtime でファイルの更新日時を取得できます
+def needs_rebuild(config: dict, target: str) -> bool:
+    # inputs に加えて deps もチェックするように拡張してください
+    targets = config.get("targets", {})
+    target_config = targets[target]
+
     target_path = Path(target)
 
-    # TODO: ここを実装してください
     if not target_path.exists():
         return True
-    
+
     target_mtime = target_path.stat().st_mtime
 
-    for input_file in inputs:
-        input_path = Path(input_file)
-        if not input_path.exists():
-            continue
-        if input_path.stat().st_mtime > target_mtime:
-            return True
-
-    return False
+    # TODO: inputs と deps の両方をチェックしてください
+    pass
 
 
 def build_target(config: dict, target: str) -> bool:
