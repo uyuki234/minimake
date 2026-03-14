@@ -39,15 +39,13 @@ def needs_rebuild(target: str, inputs: list[str]) -> bool:
 
 def build_target(config: dict, target: str) -> bool:
     targets = config.get("targets", {})
-
-    if target not in targets:
-        print(f"Error: Unknown target '{target}'", file=sys.stderr)
-        return False
-
     target_config = targets[target]
+
+    inputs = target_config.get("inputs", [])
     command = target_config.get("command")
 
-    if not needs_rebuild(config, target):
+    # 再ビルドが必要かどうかを判定
+    if not needs_rebuild(target, inputs):
         print(f"Skipping {target} (up to date)")
         return True
 
